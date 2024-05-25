@@ -69,6 +69,7 @@ sap.ui.define([
                     oUploadSet.uploadItem(item);
                 })
                 .catch((err) => {
+                    debugger
                     console.log(err);
                 });
         },

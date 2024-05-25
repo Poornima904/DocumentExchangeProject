@@ -23,6 +23,8 @@ entity PODetails{
     po_polineitems : Composition of many POLineItems
                                 on po_polineitems.polineitems = $self;
     po_files : Composition of many Files on po_files.files = $self;
+    po_files1 : Composition of many Files1 on po_files1.files1 = $self;
+    po_files2 : Composition of many Files2 on po_files2.files2 = $self;
     
 }
 entity POVendors{
@@ -65,5 +67,29 @@ entity Files : cuid, managed {
         url            : String;
         files          : Association to one PODetails
                              on files.vendorNo = vendorNo;
+}
+entity Files1 : cuid, managed {
+        vendorNo : String;
+        @Core.MediaType  : mediaType
+        content        : LargeBinary;
+        @Core.IsMediaType: true
+        mediaType      : String;
+        fileName       : String;
+        size           : Integer;
+        url            : String;
+        files1          : Association to one PODetails
+                             on files1.vendorNo = vendorNo;
+}
+entity Files2 : cuid, managed {
+        vendorNo : String;
+        @Core.MediaType  : mediaType
+        content        : LargeBinary;
+        @Core.IsMediaType: true
+        mediaType      : String;
+        fileName       : String;
+        size           : Integer;
+        url            : String;
+        files2          : Association to one PODetails
+                             on files2.vendorNo = vendorNo;
 }
 
