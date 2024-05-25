@@ -1,0 +1,6 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:macros="sap.fe.macros">
+	<VBox id="hd" core:require="{ handler: 'docexchange/ext/fragment/DocExchange'}">
+		<Button id="j" text="DocExchange" press="handler.onPress" />
+	</VBox>
+</core:FragmentDefinition>
+
