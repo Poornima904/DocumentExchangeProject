@@ -115,6 +115,15 @@
                 "@com.sap.vocabularies.UI.v1.LineItem": {
                   "tableSettings": {
                     "type": "ResponsiveTable"
+                  },
+                  "actions": {
+                    "createinvoice": {
+                      "press": "docexchange.ext.controller.CreateInvoice.CreateInvoice",
+                      "visible": true,
+                      "enabled": true,
+                      "requiresSelection": false,
+                      "text": "Create Invoice"
+                    }
                   }
                 }
               },

@@ -3,8 +3,15 @@ sap.ui.define([
     "sap/ui/model/json/JSONModel",
     "sap/ui/core/Item",
     "sap/m/Dialog",
-    "sap/m/Button"
-], function (MessageToast, JSONModel, Item, Dialog, Button) {
+    "sap/m/Button",
+    "sap/ui/base/Object",
+    "sap/m/Text",
+    "sap/m/Title",
+    "sap/uxap/ObjectPageLayout",
+    "sap/uxap/ObjectPageSection",
+    "sap/uxap/ObjectPageSubSection",
+    "sap/m/VBox"
+], function (MessageToast, JSONModel, Item, Dialog, Button, BaseObject, Text, Title, ObjectPageLayout, ObjectPageSection, ObjectPageSubSection, VBox) {
     'use strict';
     var that = this;
 
@@ -239,6 +246,85 @@ sap.ui.define([
                     iconUrl = "sap-icon://attachment";
             }
             return iconUrl;
+        },
+
+
+        onManageDocumentPress: function(){
+            debugger
+            
+
+            var oDialog = new Dialog({
+                title: 'Exchange Document with Supplier',
+                type: 'Message',
+                contentWidth: "900px",
+                contentHeight: "500px",
+                // content: new sap.m.Text({ text: "filename" }),
+                content: [
+                    new Title({ text: "add file name here" }),
+                    new ObjectPageLayout({
+                    sections: [  
+                        new ObjectPageSection({
+                            title: "Communication ",
+                            subSections: [
+                                new ObjectPageSubSection({
+                                    blocks: [
+                                        new VBox({
+                                            items: [
+                                                new Text({ text: "Filename: " + "SampleFilename" }),
+                                                new Text({ text: "Additional details can be added here." })
+                                            ]
+                                        })
+                                    ]
+                                })
+                            ]
+                        }),
+                        new ObjectPageSection({
+                            title: "Suppliers",
+                            subSections: [
+                                new ObjectPageSubSection({
+                                    blocks: [
+                                        new VBox({
+                                            items: [
+                                                new Text({ text: "Filename: " + "SampleFilename" }),
+                                                new Text({ text: "Additional details can be added here." })
+                                            ]
+                                        })
+                                    ]
+                                })
+                            ]
+                        }),
+                        new ObjectPageSection({
+                            title: "Add Comments",
+                            subSections: [
+                                new ObjectPageSubSection({
+                                    blocks: [
+                                        new VBox({
+                                            items: [
+                                                new Text({ text: "Filename: " + "SampleFilename" }),
+                                                new Text({ text: "Additional details can be added here." })
+                                            ]
+                                        })
+                                    ]
+                                })
+                            ]
+                        })  
+                    ]
+                })
+                ],
+            
+                
+                beginButton: new Button({
+                    text: 'OK',
+                    press: function () {
+                        oDialog.close();
+                    }
+                }),
+                afterClose: function () {
+                    oDialog.destroy();
+                }
+            });
+            oDialog.open();
+
         }
 
     };

@@ -21,15 +21,11 @@ xmlns:mvc="sap.ui.core.mvc" xmlns:upload="sap.m.upload" xmlns:Button="sap.m.Butt
 								
 					<upload:toolbar>
 						<OverflowToolbar id="overflow">
-
 							<ToolbarSpacer id="toolspacer"/>
 								<Button id="manageDocon" text="Manage Document" press="handler.onManageDocumentPress" />
 							<upload:UploadSetToolbarPlaceholder id="ooo" />
-
 						</OverflowToolbar>
-					
 					</upload:toolbar>
-
 
 					<upload:items>
 						<upload:UploadSetItem
