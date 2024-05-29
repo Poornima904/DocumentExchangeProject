@@ -1,0 +1,2 @@
+sap.ui.define(["sap/ui/core/mvc/Controller"],function(e){"use strict";return e.extend("adavnecpayment.controller.App",{onInit:function(){},onRowSelected:async function(e){debugger;var t=e.getSource().getItems();for(let n=0;n<t.length;n++){if(t[n].getSelected()==true){let t;let n;let o="fm1";var r=e.oSource.getParent().getModel().bindContext(`/${o}(...)`);r.setParameter("vendorNo",t);r.setParameter("itemNo",n);r.setParameter("type","checked")}}}})});
+//# sourceMappingURL=App.controller.js.map

@@ -10,10 +10,17 @@ sap.ui.define([
     "sap/uxap/ObjectPageLayout",
     "sap/uxap/ObjectPageSection",
     "sap/uxap/ObjectPageSubSection",
-    "sap/m/VBox"
-], function (MessageToast, JSONModel, Item, Dialog, Button, BaseObject, Text, Title, ObjectPageLayout, ObjectPageSection, ObjectPageSubSection, VBox) {
+    "sap/m/VBox",
+    "sap/m/TextArea",
+    "sap/m/Input",
+    "sap/m/Select",
+    "sap/m/Image",
+    "sap/m/CheckBox"
+], function (MessageToast, JSONModel, Item, Dialog, Button, BaseObject, Text, Title, ObjectPageLayout, ObjectPageSection, ObjectPageSubSection, VBox, TextArea, Input, Select, Image, CheckBox) {
     'use strict';
     var that = this;
+    var commentFromSupplier;
+    var fname;
 
     return {
         onPress: function (oEvent) {
@@ -81,27 +88,125 @@ sap.ui.define([
         },
 
 
+
         onUploadCompleted: function (oEvent) {
             debugger
             var oUploadSet = this.byId("uploadSet");
             oUploadSet.removeAllIncompleteItems();
             oUploadSet.getBinding("items").refresh();
 
-            var fname = oEvent.mParameters.item.mProperties.fileName;
+            fname = oEvent.mParameters.item.mProperties.fileName;
+           
             var path1 = window.location.href;
-                	var regex = /vendorNo='(\d+)'/;
-                	var match = path1.match(regex);
-                	var key = match[1];
+            var regex = /vendorNo='(\d+)'/;
+            var match = path1.match(regex);
+            var key = match[1];
+
+
+            var item = oEvent.getParameter("item");
+            var data = {
+                mediaType: item.getMediaType(),
+                fileName: item.getFileName(),
+                size: item.getFileObject().size,
+                vendorNo: key
+
+            };
+
 
             var oDialog = new Dialog({
                 title: 'Exchange Document with Supplier',
                 type: 'Message',
-                contentWidth: "600px",
-                contentHeight: "300px",
-                content: new sap.m.Text({ text: fname }),
-                
-                beginButton: new Button({
-                    text: 'OK',
+                contentWidth: "700px",
+                contentHeight: "600px",
+                scroll: false,
+                content: [
+                    new VBox({
+                        items: [
+                            new Title({ text: fname }),
+                            new Text({ text: key }),
+                            new sap.ui.core.Icon({
+                                src: "sap-icon://card",
+                                contentWidth: "1000px",
+                                contentHeight: "1000px",
+                                size: "40px"
+                            })
+                        ]
+                    }),
+                    new ObjectPageLayout({
+                        sections: [
+                            new ObjectPageSection({
+                                title: "Communication ",
+                                subSections: [
+                                    new ObjectPageSubSection({
+                                        blocks: [
+                                            new VBox({
+                                                alignItems: "Center",
+                                                items: [
+                                                    new Text({ text: "No Communication" })
+                                                ]
+                                            })
+                                        ]
+                                    })
+                                ]
+                            }),
+                            new ObjectPageSection({
+                                title: "Suppliers",
+                                subSections: [
+                                    new ObjectPageSubSection({
+                                        blocks: [
+                                            new sap.m.VBox({
+                                                items: [
+                                                    new sap.m.Title({ text: "Suppliers" }),
+                                                    new sap.m.MultiComboBox({
+                                                        width: "300px",
+                                                        items: [
+                                                            new sap.ui.core.ListItem({ key: "1", text: "poornima.am@peolsolutions.com" }),
+                                                            new sap.ui.core.ListItem({ key: "2", text: "sai.kumar@peolsolutions.com" }),
+                                                            new sap.ui.core.ListItem({ key: "3", text: "prem.k@peolsolutions.com" })
+                                                        ]
+                                                    })
+                                                ]
+                                            })
+                                        ]
+                                    })
+                                ]
+                            }),
+                            new ObjectPageSection({
+                                title: "Add Comments",
+                                subSections: [
+                                    new ObjectPageSubSection({
+                                        blocks: [
+                                            new VBox({
+                                                items: [
+                                                    new TextArea({
+                                                        id: "myTextArea",
+                                                        width: "100%",
+                                                        placeholder: "Type your comments here...",
+                                                        rows: 5
+                                                    })
+                                                ]
+                                            })
+                                        ]
+                                    })
+                                ]
+                            })
+                        ]
+                    })
+                ],
+
+
+                beginButton: new sap.m.Button({
+                    text: 'Submit',
+                    press: function (oModel) {
+                        debugger
+                        // commentFromSupplier = sap.ui.getCore().byId("__data449").getParent().mProperties.value;
+                        commentFromSupplier = sap.ui.getCore().byId("myTextArea").mProperties.value;
+                        sap.m.MessageToast.show("Document submitted successfully.");
+                        oDialog.close();
+                    }
+                }),
+                endButton: new sap.m.Button({
+                    text: 'Close',
                     press: function () {
                         oDialog.close();
                     }
@@ -109,8 +214,11 @@ sap.ui.define([
                 afterClose: function () {
                     oDialog.destroy();
                 }
+
             });
             oDialog.open();
+
+
 
         },
 
@@ -249,70 +357,112 @@ sap.ui.define([
         },
 
 
-        onManageDocumentPress: function(){
+        onManageDocumentPress: function (oEvent) {
             debugger
-            
+           
+            function generateUniqueId() {
+                // Generate a random number
+                var randomNumber = Math.floor(Math.random() * 1000000);
+
+                // Get the current timestamp
+                var timestamp = new Date().getTime();
+
+                // Combine timestamp and random number to create a unique ID
+                var uniqueId = timestamp + '-' + randomNumber;
+
+                return uniqueId;
+            }
+
 
             var oDialog = new Dialog({
                 title: 'Exchange Document with Supplier',
                 type: 'Message',
                 contentWidth: "900px",
                 contentHeight: "500px",
-                // content: new sap.m.Text({ text: "filename" }),
+              
                 content: [
-                    new Title({ text: "add file name here" }),
+                    new Title({ text: fname,
+                        design: "Bold",
+                    }),
                     new ObjectPageLayout({
-                    sections: [  
-                        new ObjectPageSection({
-                            title: "Communication ",
-                            subSections: [
-                                new ObjectPageSubSection({
-                                    blocks: [
-                                        new VBox({
-                                            items: [
-                                                new Text({ text: "Filename: " + "SampleFilename" }),
-                                                new Text({ text: "Additional details can be added here." })
-                                            ]
-                                        })
-                                    ]
-                                })
-                            ]
-                        }),
-                        new ObjectPageSection({
-                            title: "Suppliers",
-                            subSections: [
-                                new ObjectPageSubSection({
-                                    blocks: [
-                                        new VBox({
-                                            items: [
-                                                new Text({ text: "Filename: " + "SampleFilename" }),
-                                                new Text({ text: "Additional details can be added here." })
-                                            ]
-                                        })
-                                    ]
-                                })
-                            ]
-                        }),
-                        new ObjectPageSection({
-                            title: "Add Comments",
-                            subSections: [
-                                new ObjectPageSubSection({
-                                    blocks: [
-                                        new VBox({
-                                            items: [
-                                                new Text({ text: "Filename: " + "SampleFilename" }),
-                                                new Text({ text: "Additional details can be added here." })
-                                            ]
-                                        })
-                                    ]
-                                })
-                            ]
-                        })  
-                    ]
-                })
+                        sections: [
+                            new ObjectPageSection({
+                                title: "Communication ",
+                                subSections: [
+                                    new ObjectPageSubSection({
+                                        blocks: [
+                                            new VBox({
+
+                                                items: [
+                                                    new sap.suite.ui.commons.Timeline({
+                                                        axisOrientation: "Horizontal", 
+                                                        enableScroll: false, 
+                                                        showSearch: false,
+                                                        showSort: false, 
+                                                        showFilter: false,
+                                                        showHeaderBar: false,
+                                                        showItemFilter: false,
+                                                        showIcons: false,
+                                                        content: [
+                                                            new sap.suite.ui.commons.TimelineItem({
+                                                                id: "thisuniqid1" + generateUniqueId(),
+                                                                dateTime: "11/6/24",
+                                                                userNameClickable: false,
+                                                                text: commentFromSupplier,
+                                                                userPicture: "Photo"
+                                                            })
+                                                        ]
+                                                    })
+                                                ]
+                                            })
+                                        ]
+                                    })
+                                ]
+                            }),
+                            new ObjectPageSection({
+                                title: "Suppliers",
+                                subSections: [
+                                    new ObjectPageSubSection({
+                                        blocks: [
+                                            new VBox({
+                                                items: [
+                                                    new Title({ text: "Suppliers" }),
+                                                    new Select({
+                                                        items: [
+                                                            new Item({ key: "1", text: "poornima.am@peolsolutions.com" }),
+                                                            new Item({ key: "2", text: "sai.k@peolsolutions.com" }),
+                                                            new Item({ key: "3", text: "prem.k@peolsolutions.com" })
+                                                        ]
+                                                    })
+                                                ]
+                                            })
+                                        ]
+                                    })
+                                ]
+                            }),
+                            new ObjectPageSection({
+                                title: "Add Comments",
+                                subSections: [
+                                    new ObjectPageSubSection({
+                                        blocks: [
+                                            new VBox({
+                                                items: [
+                                                    new TextArea({
+                                                        width: "100%",
+                                                        placeholder: "Type your comments here...",
+                                                        rows: 5
+                                                    })
+                                                ]
+                                            })
+                                        ]
+                                    })
+                                ]
+                            })
+                        ]
+                    })
                 ],
-            
-                
+
+
                 beginButton: new Button({
                     text: 'OK',
                     press: function () {

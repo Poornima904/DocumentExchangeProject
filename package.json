@@ -6,9 +6,13 @@
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {
+    "@sap-cloud-sdk/connectivity": "^3.15.0",
+    "@sap-cloud-sdk/http-client": "^3.15.0",
     "@sap/cds": "^7",
+    "@sap/cds-hana": "^2",
     "@sap/xsenv": "^5.1.0",
     "@sap/xssec": "^4.0.0",
+    "axios": "^1.7.2",
     "express": "^4",
     "i": "^0.3.7",
     "passport": "^0.7.0"
@@ -17,7 +21,7 @@
     "@cap-js/sqlite": "^1",
     "@sap/cds-dk": "^7",
     "@sap/eslint-plugin-cds": "^3",
-    "@sap/ux-specification": "UI5-1.124",
+    "@sap/ux-specification": "^1.120.11",
     "eslint": "^9",
     "rimraf": "^5.0.5"
   },
@@ -26,9 +30,48 @@
     "watch-docexchange": "cds watch --open docexchange/webapp/index.html?sap-ui-xx-viewCache=false",
     "undeploy": "cf undeploy DocExchange --delete-services --delete-service-keys --delete-service-brokers",
     "build": "rimraf resources mta_archives && mbt build --mtar archive",
-    "deploy": "cf deploy mta_archives/archive.mtar --retries 1"
+    "deploy": "cf deploy mta_archives/archive.mtar --retries 1",
+    "watch-adavnecpayment": "cds watch --open adavnecpayment/webapp/index.html?sap-ui-xx-viewCache=false"
   },
   "sapux": [
-    "app/docexchange"
-  ]
+    "app/docexchange",
+    "app/adavnecpayment"
+  ],
+  "cds": {
+    "requires": {
+      "destinations": true,
+      "docExchange": {
+        "kind": "odata-v2",
+        "csrf": true,
+        "csrfInBatch": true,
+        "credentials": {
+          "destination": "docExchange",
+          "requestTimeout": 120000
+        },
+        "destinationOptions": {
+          "selectionStrategy": "alwaysProvider",
+          "jwt": null
+        }
+      },
+      "pool": {
+        "max": 500,
+        "min": 10
+      },
+      "BPA_S": {
+        "kind": "odata-v2",
+        "csrf": true,
+        "csrfInBatch": true,
+        "credentials": {
+          "destination": "BPA_S",
+          "requestTimeout": 120000
+        },
+        "destinationOptions": {
+          "selectionStrategy": "alwaysProvider",
+          "jwt": null
+        }
+      },
+      "db": "hana",
+      "auth": "dummy"
+    }
+  }
 }

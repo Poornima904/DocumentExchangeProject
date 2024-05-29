@@ -124,6 +124,17 @@ annotate service.PODetails with @(
             Label : 'CompanyCode',
             Value : CompanyCode,
         },
+        {
+            $Type : 'UI.DataField',
+            Value : copySupplier,
+            Label : 'copySupplier',
+        },
+        {
+            $Type : 'UI.DataFieldForIntentBasedNavigation',
+            SemanticObject : 'semadv',
+            Action : 'display',
+            Label : 'Create Invoice',
+        },
     ],
 );
 
@@ -246,4 +257,44 @@ annotate service.POLineItems with @(
             Value : sgstValue,
             Label : 'sgstValue',
         },]
+);
+annotate service.PODetails with @(
+    UI.SelectionPresentationVariant #tableView : {
+        $Type : 'UI.SelectionPresentationVariantType',
+        PresentationVariant : {
+            $Type : 'UI.PresentationVariantType',
+            Visualizations : [
+                '@UI.LineItem',
+            ],
+        },
+        SelectionVariant : {
+            $Type : 'UI.SelectionVariantType',
+            SelectOptions : [
+            ],
+        },
+        Text : 'Table View',
+    }
+);
+annotate service.POVendors with @(
+    UI.LineItem #tableView : [
+        {
+            $Type : 'UI.DataField',
+            Value : email,
+            Label : 'email',
+        },],
+    UI.SelectionPresentationVariant #tableView : {
+        $Type : 'UI.SelectionPresentationVariantType',
+        PresentationVariant : {
+            $Type : 'UI.PresentationVariantType',
+            Visualizations : [
+                '@UI.LineItem#tableView',
+            ],
+        },
+        SelectionVariant : {
+            $Type : 'UI.SelectionVariantType',
+            SelectOptions : [
+            ],
+        },
+        Text : 'Table View POVendors',
+    }
 );

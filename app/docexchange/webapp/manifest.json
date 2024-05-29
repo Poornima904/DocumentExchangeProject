@@ -24,6 +24,19 @@
           "odataVersion": "4.0"
         }
       }
+    },
+    "crossNavigation": {
+      "inbounds": {
+        "sem-display": {
+          "semanticObject": "sem",
+          "action": "display",
+          "title": "{{flpTitle}}",
+          "signature": {
+            "parameters": {},
+            "additionalParameters": "allowed"
+          }
+        }
+      }
     }
   },
   "sap.ui": {
@@ -50,7 +63,9 @@
         "sap.m": {},
         "sap.ui.core": {},
         "sap.ushell": {},
-        "sap.fe.templates": {}
+        "sap.fe.templates": {},
+        "sap.suite.ui.commons": {},
+        "sap.f": {}
       }
     },
     "contentDensities": {
@@ -114,20 +129,12 @@
               "controlConfiguration": {
                 "@com.sap.vocabularies.UI.v1.LineItem": {
                   "tableSettings": {
-                    "type": "ResponsiveTable"
-                  },
-                  "actions": {
-                    "createinvoice": {
-                      "press": "docexchange.ext.controller.CreateInvoice.CreateInvoice",
-                      "visible": true,
-                      "enabled": true,
-                      "requiresSelection": false,
-                      "text": "Create Invoice"
-                    }
+                    "type": "ResponsiveTable",
+                    "selectionMode": "Single"
                   }
                 }
               },
-              "initialLoad": "Enabled"
+              "defaultTemplateAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#tableView"
             }
           }
         },
@@ -220,6 +227,9 @@
         "sap.ui.controllerExtensions": {
           "sap.fe.templates.ObjectPage.ObjectPageController": {
             "controllerName": "docexchange.ext.controller.ObjectC"
+          },
+          "sap.fe.templates.ListReport.ListReportController": {
+            "controllerName": "docexchange.ext.controller.ListReportC"
           }
         }
       }

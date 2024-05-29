@@ -7,6 +7,9 @@ modules:
   type: nodejs
   path: gen/srv
   requires:
+  - name: LP_Connectivity
+  - name: TLP_Connectivity
+  - name: DocExchange-destination-service
   - name: DocExchange-db
   - name: uaa_DocExchange
   provides:
@@ -70,6 +73,10 @@ modules:
       - docexchange.zip
       name: docexchange
       target-path: resources/
+    - artifacts:
+      - adavnecpayment.zip
+      name: adavnecpayment
+      target-path: resources/
 - name: docexchange
   type: html5
   path: app/docexchange
@@ -80,7 +87,33 @@ modules:
     - npm install
     - npm run build:cf
     supported-platforms: []
+- name: adavnecpayment
+  type: html5
+  path: app/adavnecpayment
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
 resources:
+- name: LP_Connectivity
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: connectivity
+    service-plan: lite
+- name: TLP_Connectivity
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: destination
+    service-plan: lite
+- name: Doc-Exchange-destination-service
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: destination
+    service-name:  DocExchange-destination-service
+    service-plan: lite
 - name: DocExchange-destination-service
   type: org.cloudfoundry.managed-service
   parameters:

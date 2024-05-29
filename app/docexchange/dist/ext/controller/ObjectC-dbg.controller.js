@@ -14,11 +14,11 @@ sap.ui.define(['sap/ui/core/mvc/ControllerExtension'], function (ControllerExten
 				var oModel = this.base.getExtensionAPI().getModel();
 			},
 			routing:{
-			onAfterBinding: function(){
+			onBeforeBinding: function(){
 				debugger
 				//for hiding standard symbols in both the tables
-				sap.ui.getCore().byId("docexchange::PODetailsObjectPage--fe::table::po_polineitems::LineItem::POLineItems-copy-img").setVisible(false)
-				sap.ui.getCore().byId("docexchange::PODetailsObjectPage--fe::table::po_povendor::LineItem::PartnerInformation-copy-img").setVisible(false)
+				// sap.ui.getCore().byId("docexchange::PODetailsObjectPage--fe::table::po_polineitems::LineItem::POLineItems-copy-img").setVisible(false)
+				// sap.ui.getCore().byId("docexchange::PODetailsObjectPage--fe::table::po_povendor::LineItem::PartnerInformation-copy-img").setVisible(false)
 			}
 		}
 		}

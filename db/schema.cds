@@ -53,6 +53,7 @@ entity POLineItems{
     condType: String;
     amount: String;
     conditionValue: String;
+    checked : String;
     polineitems : Association to one PODetails
                                     on polineitems.vendorNo = vendorNo;
 }
@@ -91,5 +92,21 @@ entity Files2 : cuid, managed {
         url            : String;
         files2          : Association to one PODetails
                              on files2.vendorNo = vendorNo;
+}
+
+entity Invoiceheader{
+    key invoiceNo : String;
+    PoNumber :String;
+    regID :String;
+    contractNumber :String;
+    VendorName :String;
+    VendorGSTIN :String;
+    companyCode :String;
+    plantCode :String;
+    purchasingOrg :String;
+    invoiceDate :String;
+    invoiceValue :String;
+    status :String;
+    comment :String;
 }
 

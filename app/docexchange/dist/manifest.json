@@ -24,6 +24,19 @@
                     "odataVersion": "4.0"
                 }
             }
+        },
+        "crossNavigation": {
+            "inbounds": {
+                "sem-display": {
+                    "semanticObject": "sem",
+                    "action": "display",
+                    "title": "{{flpTitle}}",
+                    "signature": {
+                        "parameters": {},
+                        "additionalParameters": "allowed"
+                    }
+                }
+            }
         }
     },
     "sap.ui": {
@@ -114,11 +127,12 @@
                             "controlConfiguration": {
                                 "@com.sap.vocabularies.UI.v1.LineItem": {
                                     "tableSettings": {
-                                        "type": "ResponsiveTable"
+                                        "type": "ResponsiveTable",
+                                        "selectionMode": "Single"
                                     }
                                 }
                             },
-                            "initialLoad": "Enabled"
+                            "defaultTemplateAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#tableView"
                         }
                     }
                 },
@@ -211,6 +225,9 @@
                 "sap.ui.controllerExtensions": {
                     "sap.fe.templates.ObjectPage.ObjectPageController": {
                         "controllerName": "docexchange.ext.controller.ObjectC"
+                    },
+                    "sap.fe.templates.ListReport.ListReportController": {
+                        "controllerName": "docexchange.ext.controller.ListReportC"
                     }
                 }
             }
