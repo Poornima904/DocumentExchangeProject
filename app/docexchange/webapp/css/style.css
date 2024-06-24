@@ -1,0 +1,34 @@
+#comboboxApproverDocType{
+    margin-left: 15px;
+
+}
+
+#approverNameInput{
+    margin-left: 27px;
+    width: 100%;
+
+}
+#approverMailInput{
+    margin-left: 35px;
+    width: 100%;
+
+}
+#createbydate{
+    margin-left: 25px;
+    width: 100%;
+}
+
+#iconNcreationdateHbox{
+    margin-top: 15px;
+}
+
+
+/* Remove scroll bars */
+.sapMDialogScrollCont,
+.sapMDialogSection {
+    overflow: hidden !important;
+}
+
+/* .testClass{
+    background: red;
+} */

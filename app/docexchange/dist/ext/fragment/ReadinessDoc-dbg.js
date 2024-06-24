@@ -3,8 +3,25 @@ sap.ui.define([
     "sap/ui/model/json/JSONModel",
     "sap/ui/core/Item",
     "sap/m/Dialog",
-    "sap/m/Button"
-], function (MessageToast, JSONModel, Item, Dialog, Button) {
+    "sap/m/Button",
+    "sap/ui/base/Object",
+    "sap/m/Text",
+    "sap/m/Title",
+    "sap/uxap/ObjectPageLayout",
+    "sap/uxap/ObjectPageSection",
+    "sap/uxap/ObjectPageSubSection",
+    "sap/m/VBox",
+    "sap/m/HBox",
+    "sap/m/TextArea",
+    "sap/m/Input",
+    "sap/m/Select",
+    "sap/m/Image",
+    "sap/m/CheckBox",
+    "sap/m/Label",
+    "sap/m/ComboBox"
+
+], function (MessageToast, JSONModel, Item, Dialog, Button, BaseObject, Text, Title, ObjectPageLayout,
+    ObjectPageSection, ObjectPageSubSection, VBox, HBox, TextArea, Input, Select, Image, CheckBox, Label, ComboBox) {
     'use strict';
     var that = this;
 
@@ -19,14 +36,16 @@ sap.ui.define([
             var url1 = this._view.getModel().sServiceUrl;
             var _createEntity = function (item) {
                 var path1 = window.location.href;
-                var regex = /vendorNo='(\d+)'/;
+                // var regex = /vendorNo='(\d+)'/;
+                var regex = /orderNumber='([^']+)'/;
                 var match = path1.match(regex);
                 var key = match[1];
                 var data = {
                     mediaType: item.getMediaType(),
                     fileName: item.getFileName(),
                     size: item.getFileObject().size,
-                    vendorNo: key
+                    status : "PENDING",
+                    orderNumber: key
 
                 };
 
@@ -77,25 +96,161 @@ sap.ui.define([
 
         onUploadCompleted: function (oEvent) {
             debugger
+      
             var oUploadSet = this.byId("uploadSet");
             oUploadSet.removeAllIncompleteItems();
             oUploadSet.getBinding("items").refresh();
 
             var fname = oEvent.mParameters.item.mProperties.fileName;
             var path1 = window.location.href;
-                	var regex = /vendorNo='(\d+)'/;
-                	var match = path1.match(regex);
-                	var key = match[1];
-
+            var regex = /orderNumber='([^']+)'/;
+            var match = path1.match(regex);
+            var key = match[1];
+    
             var oDialog = new Dialog({
-                title: 'Exchange Document with Supplier',
+                title: 'Readiness Document',
                 type: 'Message',
                 contentWidth: "600px",
                 contentHeight: "300px",
-                content: new sap.m.Text({ text: fname }),
-                
+                scroll: false,
+                content: [
+                    new VBox({
+                        items: [
+                            new Title({ text: fname }),
+                            new Text({ text: key }),
+                            new HBox("iconNcreationdateHbox",{
+                                items: [
+                                    
+                                    new sap.ui.core.Icon({
+                                        src: "sap-icon://customer",
+                                        contentWidth: "1000px",
+                                        contentHeight: "1000px",
+                                        size: "30px"
+                                    }),
+                                    new VBox("createbydate",{
+                                        items: [
+                                            new Text({ text: "createdBy:" }), // Assuming createdBy is a variable holding the creator's name
+                                            new Text({ text: "createdDate:" }) // Assuming createdDate is a variable holding the creation date
+                                        ]
+                                    })
+                                ]
+
+
+                            })
+                        ]
+
+
+
+                    }),
+
+                    new sap.uxap.ObjectPageLayout({
+                        sections: [
+                            new sap.uxap.ObjectPageSection({
+                                title: "Suppliers",
+                                subSections: [
+                                    new sap.uxap.ObjectPageSubSection({
+                                        blocks: [
+                                            new sap.m.VBox({
+                                                items: [
+                                                    // Approver docType input field in HBox
+                                                    new sap.m.HBox({
+                                                        items: [
+                                                            new sap.m.Label({
+                                                                text: "Approver docType  ",
+                                                                labelFor: "comboboxApproverDocType"
+                                                            }),
+
+                                                            new sap.m.ComboBox("comboboxApproverDocType", {
+                                                                width: "300px",
+                                                                editable: false,
+                                                                selectedKey: "1",
+                                                                items: [
+                                                                    new sap.ui.core.ListItem({ key: "1", text: "Readiness Document" }),
+                                                                ]
+                                                            })
+
+
+                                                        ],
+                                                        alignItems: "Center",
+                                                        justifyContent: "Start"
+                                                    }),
+
+                                                    // Approver mail input field in HBox with Spacer
+                                                    new sap.m.HBox({
+                                                        items: [
+                                                            new sap.m.Label({
+                                                                text: "Approver mail  ",
+                                                                labelFor: "approverMailInput"
+                                                            }),
+                                                            new sap.m.Input("approverMailInput", {
+                                                                width: "300px"
+                                                            })
+                                                        ],
+                                                        alignItems: "Center",
+                                                        justifyContent: "Start"
+                                                    }),
+                                                    // Approver Name input field in HBox with Spacer
+                                                    new sap.m.HBox({
+                                                        items: [
+                                                            new sap.m.Label({
+                                                                text: "Approver Name  ",
+                                                                labelFor: "approverNameInput"
+                                                            }),
+                                                            new sap.m.Input("approverNameInput", {
+                                                                width: "300px"
+                                                            })
+                                                        ],
+                                                        alignItems: "Center",
+                                                        justifyContent: "Start"
+                                                    })
+                                                ]
+                                            })
+                                        ]
+                                    })
+                                ]
+                            })
+                        ]
+                    })
+
+                ],
+
+
                 beginButton: new Button({
-                    text: 'OK',
+                    text: 'Submit',
+                    press: async function (oEvent) {
+                        debugger
+                        var url = window.location.href
+                        const regex = /orderNumber='(\d+)'/;
+                        const match = url.match(regex);
+
+                        let ponum = null;
+
+                        if (match) {
+                            ponum = match[1];
+                        }
+                            
+                        var name = sap.ui.getCore().byId("approverNameInput").mProperties.value
+                        var email = sap.ui.getCore().byId("approverMailInput").mProperties.value
+                        var dialogcomptitle = oEvent.oSource.oParent.mProperties.title
+                       
+                        let funcname = "bpatrigger";
+                        var oFunc = sap.ui.getCore().byId("docexchange::PODetailsObjectPage--fe::FacetSection::PartnerInformation-innerGrid").getModel().bindContext(`/${funcname}(...)`);
+                        oFunc.setParameter('poNum', ponum);
+                        oFunc.setParameter('email', email);
+                        oFunc.setParameter('dialogtitle', dialogcomptitle);
+                        await oFunc.execute();
+
+                        oDialog.close();
+                    }
+                }),
+                endButton: new Button({
+                    text: 'Close',
+                    press: function () {
+                        oDialog.close();
+                    }
+                }),
+                endButton: new Button({
+                    text: 'Close',
                     press: function () {
                         oDialog.close();
                     }

@@ -77,6 +77,14 @@ modules:
       - adavnecpayment.zip
       name: adavnecpayment
       target-path: resources/
+    - artifacts:
+      - invoicelisting.zip
+      name: invoicelisting
+      target-path: resources/
+    - artifacts:
+      - supplier.zip
+      name: supplier
+      target-path: resources/
 - name: docexchange
   type: html5
   path: app/docexchange
@@ -90,6 +98,26 @@ modules:
 - name: adavnecpayment
   type: html5
   path: app/adavnecpayment
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: invoicelisting
+  type: html5
+  path: app/invoicelisting
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: supplier
+  type: html5
+  path: app/supplier
   build-parameters:
     build-result: dist
     builder: custom
@@ -112,7 +140,7 @@ resources:
   type: org.cloudfoundry.managed-service
   parameters:
     service: destination
-    service-name:  DocExchange-destination-service
+    service-name: DocExchange-destination-service
     service-plan: lite
 - name: DocExchange-destination-service
   type: org.cloudfoundry.managed-service

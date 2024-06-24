@@ -14,23 +14,33 @@ sap.ui.define(['sap/ui/core/mvc/ControllerExtension'], function (ControllerExten
 				var oModel = this.base.getExtensionAPI().getModel();
 			},
 			routing:{
-				onBeforeBinding:function(){
+
+				onBeforeBinding:async function(oEvent){
 					debugger
-					
+					let funcname = "getcallforsupplier";
+					var oFunc = this.getView().getModel().bindContext(`/${funcname}(...)`);
+					oFunc.setParameter('vendorno', '0000001060');
+					await oFunc.execute();
 				},
+
+				
 				onAfterBinding:async function(oEvent){
 					debugger
-					sap.ui.getCore().byId("docexchange::PODetailsList--fe::table::PODetails::LineItem::C::copySupplier-innerColumn").setVisible(false);  //hiding copysupplier column
-					var tableList = sap.ui.getCore().byId("docexchange::PODetailsList--fe::table::PODetails::LineItem-innerTable");
+
+					sap.ui.getCore().byId("docexchange::PODetailsList--fe::table::PODetails::LineItem::DataFieldForIntentBasedNavigation::semadv::display").setVisible(false);  //Create Invoice button hiding
+					// sap.ui.getCore().byId("docexchange::PODetailsList--fe::table::PODetails::LineItem::C::copySupplier-innerColumn").setVisible(false);  //hiding copysupplier column
+					var tableList =this.getView().mAggregations.content[0].mAggregations.content.mAggregations.content;
 					tableList.attachSelectionChange(function (oEvent) {
 						debugger
-						var copySupp = oEvent.mParameters.listItems[0].mAggregations.cells[5].mProperties.text;
-						if(copySupp == 'X'){
-							sap.ui.getCore().byId("docexchange::PODetailsList--fe::table::PODetails::LineItem::CustomAction::createinvoice").setVisible(true);  //Create Invoice button unhiding
-						}else{
-							sap.ui.getCore().byId("docexchange::PODetailsList--fe::table::PODetails::LineItem::CustomAction::createinvoice").setVisible(false);
+						var copySupp = oEvent.getSource().mAggregations._content.getSelectedItem().getCells()[5].mProperties.text;
+						if(copySupp == ''){
+							sap.ui.getCore().byId("docexchange::PODetailsList--fe::table::PODetails::LineItem::DataFieldForIntentBasedNavigation::semadv::display").setVisible(false);  //Create Invoice button hiding
+						}
+						else if(copySupp == 'X'){
+							sap.ui.getCore().byId("docexchange::PODetailsList--fe::table::PODetails::LineItem::DataFieldForIntentBasedNavigation::semadv::display").setVisible(true);  //Create Invoice button unhiding
 						}
 					})
+
 					// setTimeout((oEvent)=>{
 					// 	debugger
 					// 	console.log(tableList);
@@ -42,12 +52,9 @@ sap.ui.define(['sap/ui/core/mvc/ControllerExtension'], function (ControllerExten
 						
 						
 					// 	}
-					
-
 					// },3000);
 					
-					
-				},
+				}
 			
 				
 				

@@ -94,7 +94,11 @@
       }
     },
     "resources": {
-      "css": []
+      "css": [
+        {
+          "uri": "css/style.css"
+        }
+      ]
     },
     "routing": {
       "config": {},
@@ -134,7 +138,8 @@
                   }
                 }
               },
-              "defaultTemplateAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#tableView"
+              "defaultTemplateAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#tableView",
+              "initialLoad": "Enabled"
             }
           }
         },
@@ -179,7 +184,31 @@
                   },
                   "columns": {
                     "DataField::itemNo": {
-                      "width": "70px"
+                      "width": "10%"
+                    },
+                    "DataField::itemDesc": {
+                      "width": "10%"
+                    },
+                    "DataField::plant": {
+                      "width": "7%"
+                    },
+                    "DataField::itemCondDesc": {
+                      "width": "13%"
+                    },
+                    "DataField::lineItemQuant": {
+                      "width": "7%"
+                    },
+                    "DataField::unitPrice": {
+                      "width": "7%"
+                    },
+                    "DataField::CgstPercent": {
+                      "width": "7%"
+                    },
+                    "DataField::sgstPercent": {
+                      "width": "7%"
+                    },
+                    "DataField::cgstValue": {
+                      "width": "10%"
                     }
                   }
                 }

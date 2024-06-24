@@ -1,0 +1,68 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:macros="sap.fe.macros" displayBlock="true"
+xmlns:mvc="sap.ui.core.mvc" xmlns:upload="sap.m.upload">
+	<VBox id="11p">
+		 <upload:UploadSet
+					id="uploadSet"
+					core:require="{ handler: 'invoicelisting/ext/fragment/CompletionD'}"
+					instantUpload="false"
+					uploadEnabled="false"
+					showIcons="true"
+					mode="None"
+					uploadButtonInvisible="true"
+					afterItemAdded="handler.onAfterItemAdded"
+					uploadCompleted="handler.onUploadCompleted"
+					items="{
+								path: '/Files1',
+								parameters: {
+									$orderby: 'createdAt desc'
+								},
+								templateShareable: false}">
+					<upload:toolbar>
+					</upload:toolbar>
+					<upload:items>
+						<upload:UploadSetItem
+						id="dddp"
+							fileName="{fileName}"
+							mediaType="{mediaType}"
+							url="{url}"
+							thumbnailUrl="{
+								path: '/mediaType',
+								formatter: 'handler.formatThumbnailUrl'
+							}"
+							enabledEdit="false"
+							visibleEdit="false"
+							visibleRemove="false"
+							openPressed="handler.onOpenPressed"
+							removePressed="handler.onRemovePressed">
+							<upload:attributes>
+								<ObjectAttribute
+								id="ddp"
+									title="Uploaded By"
+									text="{createdBy}"
+									active="false"
+								/>
+								<ObjectAttribute
+								id="dd22p"
+									title="Uploaded on"
+									text="{createdAt}"
+									active="false"
+								/>
+								<ObjectAttribute
+								id="dddw2p"
+
+									title="File Type"
+									text="{mediaType}"
+									active="false"
+								/>
+								<ObjectAttribute
+								id="dd22pa"
+									title="File Size"
+									text="{size}"
+									active="false"
+								/>
+							</upload:attributes>
+						</upload:UploadSetItem>
+					</upload:items>
+				</upload:UploadSet>
+	</VBox>
+</core:FragmentDefinition>

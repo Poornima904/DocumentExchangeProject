@@ -14,6 +14,7 @@
     <App id="app">
 
         <pages>
+        
             <Page xmlns="sap.m" id="headtitle" title="Advance Payment Form">
                 <uxap:ObjectPageLayout id="ObjectPageLayout">
                     <uxap:sections>
@@ -25,15 +26,15 @@
 
                                             <VBox class="form-element">
                                                 <Label id="invoiceNum" text="Invoice Number" labelFor="inp-a"/>
-                                                <Input id="inp-a" width="170px" required="true"/>
+                                                <Input id="inp-a" width="170px" required="true" valueState="Error" valueStateText="Value is required" liveChange="invoiceNum"/>
                                             </VBox>
                                             <VBox class="form-element">
                                                 <Label id="invoiceDate" text="Invoice Date" labelFor="inp-b"/>
-                                                <Input id="inp-b" width="170px" required="true"/>
+                                                 <DatePicker id="inp-b" width="170px" required="true"/>
                                             </VBox>
                                             <VBox class="form-element">
                                                 <Label id="invoiceVal" text="Invoice Value" labelFor="inp-c"/>
-                                                <Input id="inp-c" width="170px" required="true"/>
+                                                <Input id="inp-c" width="170px" required="true" valueState="Error" valueStateText="Value is required" liveChange="invoiceVal"/>
                                             </VBox>
 
                                         </HBox>
@@ -91,28 +92,24 @@
                                                                 path: '/POLineItems' 
                                                                 }">
                                                 <columns>
-                                                    <Column width="10rem">
+                                                    <Column>
                                                         <Text text="Item No" />
                                                     </Column>
-                                                    <Column>
+                                                    <Column  width="8rem">
                                                         <Text text="Item Description" />
                                                     </Column>
-                                                    <Column>
+                                                    <Column  width="10rem">
                                                         <Text text="Item Description Condition" />
                                                     </Column>
                                                     <Column>
                                                         <Text text="Plant" />
                                                     </Column>
                                                     <Column>
-                                                        <Text text="Quantity"/>
-                                                    </Column>
-                                                   <Column>
-                                                        <Text text="Amount"/>
+                                                        <Text text="Unit Price"/>
                                                     </Column>
                                                     <Column>
-                                                        <Text text="Total Value"/>
+                                                        <Text text="Quantity"/>
                                                     </Column>
-
                                                     <Column>
                                                         <Text text="CGST %" />
                                                     </Column>
@@ -125,9 +122,6 @@
                                                     <Column>
                                                         <Text text="SGST Value" />
                                                     </Column>
-                                                    <Column>
-                                                        <Text text="Order Number"/>
-                                                    </Column>
                                                    
                                                   
                                                    
@@ -139,15 +133,12 @@
                                                             <Text text="{itemDesc}"/>
                                                             <Text text="{itemCondDesc}" />
                                                             <Text text="{plant}" />
-                                                            <Text text="{lineItemQuant}" />
-                                                            <Text text="{amount}" />
-                                                            <Text text="{TotalValue}" />
+                                                            <Text text="{unitPrice}" />
+                                                            <Text text="{lineItemQuant_static}" />
                                                             <Text text="{CgstPercent}" />
                                                             <Text text="{sgstPercent}" />
-                                                            <Text text="{cgstValue}" />
-                                                            <Text text="{sgstValue}" />
-                                                            <Text text="{orderNumber}" />
-                                                        
+                                                            <Text text="{cgstValue_static}" />
+                                                            <Text text="{sgstValue_static}" />                                                        
                                                         </cells>
 
                                                     </ColumnListItem>
@@ -171,28 +162,24 @@
                                                                 path: '/checkedpolineitem' 
                                                                 }">
                                                 <columns>
-                                                    <Column width="10rem">
+                                                    <Column>
                                                         <Text text="Item No" />
                                                     </Column>
-                                                    <Column>
+                                                    <Column  width="8rem">
                                                         <Text text="Item Description" />
                                                     </Column>
-                                                    <Column>
+                                                    <Column  width="10rem">
                                                         <Text text="Item Description Condition" />
                                                     </Column>
                                                     <Column>
                                                         <Text text="Plant" />
                                                     </Column>
                                                     <Column>
-                                                        <Text text="Quantity"/>
-                                                    </Column>
-                                                    <Column>
                                                         <Text text="Unit Price" />
                                                     </Column>
-                                                    <Column>
-                                                        <Text text="Total Value"/>
+                                                       <Column>
+                                                        <Text text="Quantity"/>
                                                     </Column>
-
                                                     <Column>
                                                         <Text text="CGST %" />
                                                     </Column>
@@ -206,16 +193,7 @@
                                                         <Text text="SGST Value" />
                                                     </Column>
                                                     <Column>
-                                                        <Text text="Order Number"/>
-                                                    </Column>
-                                                    <Column>
-                                                        <Text text="Condition Type"/>
-                                                    </Column>
-                                                    <Column>
                                                         <Text text="Amount"/>
-                                                    </Column>
-                                                    <Column>
-                                                        <Text text="Condition Value"/>
                                                     </Column>
                                                 </columns>
                                                 <items>
@@ -225,17 +203,13 @@
                                                             <Text text="{itemDesc}"/>
                                                             <Text text="{itemCondDesc}" />
                                                             <Text text="{plant}" />
-                                                            <Text text="{lineItemQuant}" />
-                                                            <Text text="{unitPrice}" />
-                                                            <Text text="{TotalValue}" />
+                                                             <Text text="{unitPrice}" />
+                                                            <Input submit="submit" value="{lineItemQuant}" id="quan"></Input>                                                           
                                                             <Text text="{CgstPercent}" />
                                                             <Text text="{sgstPercent}" />
                                                             <Text text="{cgstValue}" />
-                                                            <Text text="{sgstValue}" />
-                                                            <Text text="{orderNumber}" />
-                                                            <Text text="{condType}" />
-                                                            <Text text="{amount}" />
-                                                            <Text text="{conditionValue}" />
+                                                            <Text text="{sgstValue}" />                                          
+                                                            <Text text="{amount_dynamic}" />                                          
                                                         </cells>
 
                                                     </ColumnListItem>
@@ -319,17 +293,18 @@
                             </uxap:subSections>
                         </uxap:ObjectPageSection>
 
+                      
 
-                  
+                       
 
 
 
-                        <uxap:ObjectPageSection title="Details" titleUppercase="false">
+                          <uxap:ObjectPageSection title="Details" titleUppercase="false">
                             <uxap:subSections>
-                                <uxap:ObjectPageSubSection title="Attachments" mode="Collapsed" titleUppercase="false">
+                                <uxap:ObjectPageSubSection title="Readiness Document" mode="Collapsed" titleUppercase="false">
                                     <uxap:blocks>
                                         <VBox>
-                                            <upload:UploadSet id="uploadSet" instantUpload="false" uploadEnabled="true" showIcons="true" mode="None" uploadButtonInvisible="false" afterItemAdded="onAfterItemAdded" uploadCompleted="onUploadCompleted" items="{
+                                            <upload:UploadSet id="uploadSet" instantUpload="false" uploadEnabled="true" showIcons="true" mode="None"  afterItemAdded="onAfterItemAdded" uploadCompleted="onUploadCompleted" items="{
                                                                     path: '/Files',
                                                                     parameters: {
                                                                         $orderby: 'createdAt desc'
@@ -339,7 +314,7 @@
                                                 </upload:toolbar>
                                                 <upload:items>
                                                     <upload:UploadSetItem id="ddd" fileName="{fileName}" mediaType="{mediaType}" url="{url}" thumbnailUrl="{
-                                                                    path: 'mediaType',
+                                                                    path: '/mediaType',
                                                                     formatter: 'formatThumbnailUrl'
                                                                 }" enabledEdit="true" visibleEdit="true" visibleRemove="true" openPressed="onOpenPressed" removePressed="onRemovePressed">
                                                         <upload:attributes>
@@ -357,24 +332,108 @@
                             </uxap:subSections>
                         </uxap:ObjectPageSection>
 
-                        <uxap:ObjectPageSection title="Details" titleUppercase="false">
+
+                          <uxap:ObjectPageSection title="Details" titleUppercase="false">
                             <uxap:subSections>
-                                <uxap:ObjectPageSubSection title="Comments" mode="Collapsed" titleUppercase="false">
+                                <uxap:ObjectPageSubSection title="Completion Document" mode="Collapsed" titleUppercase="false">
                                     <uxap:blocks>
-
-                                        <VBox id= "vv" class = "commentvbox" width="100%">
-                                            <!-- <HBox id="buttonContainer" alignItems="End" justifyContent="End" width="100%">
-                                            <Button id="rev_comm" class = "commentbtn" core:require="{ handler: 'preadvanceaplist/ext/fragment/Comments'}" text="Comments" press="handler.onPress" icon="sap-icon://comment" />
-                                        </HBox> -->
-                                            <TextArea id="ta" rows="8" width="100%" placeholder="Write your comment" editable="true" class="commenthbox" />
-
+                                        <VBox>
+                                            <upload:UploadSet id="uploadSe3t" instantUpload="false" uploadEnabled="true" showIcons="true" mode="None" uploadButtonInvisible="false" afterItemAdded="onAfterItemAddedComp" uploadCompleted="onUploadCompletedComp" items="{
+                                                                    path: '/Files1',
+                                                                    parameters: {
+                                                                        $orderby: 'createdAt desc'
+                                                                    },
+                                                                    templateShareable: false}">
+                                                <upload:toolbar>
+                                                </upload:toolbar>
+                                                <upload:items>
+                                                    <upload:UploadSetItem id="ddd3" fileName="{fileName}" mediaType="{mediaType}" url="{url}" thumbnailUrl="{
+                                                                    path: '/mediaType',
+                                                                    formatter: 'formatThumbnailUrl'
+                                                                }" enabledEdit="true" visibleEdit="true" visibleRemove="true" openPressed="onOpenPressedComp" removePressed="onRemovePressed">
+                                                        <upload:attributes>
+                                                            <ObjectAttribute id="dd3" title="Uploaded By" text="{createdBy}" active="false" />
+                                                            <ObjectAttribute id="d3d22" title="Uploaded on" text="{createdAt}" active="false" />
+                                                            <ObjectAttribute id="dd3dw2" title="File Type" text="{mediaType}" active="false" />
+                                                            <ObjectAttribute id="dd232a" title="File Size" text="{size}" active="false" />
+                                                        </upload:attributes>
+                                                    </upload:UploadSetItem>
+                                                </upload:items>
+                                            </upload:UploadSet>
                                         </VBox>
-
-
                                     </uxap:blocks>
                                 </uxap:ObjectPageSubSection>
                             </uxap:subSections>
                         </uxap:ObjectPageSection>
+
+
+                          <uxap:ObjectPageSection title="Details" titleUppercase="false">
+                            <uxap:subSections>
+                                <uxap:ObjectPageSubSection title="Doc Exchange" mode="Collapsed" titleUppercase="false">
+                                    <uxap:blocks>
+                                        <VBox>
+                                            <upload:UploadSet id="uploadSet2" instantUpload="false" uploadEnabled="true" showIcons="true" mode="None" uploadButtonInvisible="false" afterItemAdded="onAfterItemAddedDoc" uploadCompleted="onUploadCompletedDoc" items="{
+                                                                    path: '/Files2',
+                                                                    parameters: {
+                                                                        $orderby: 'createdAt desc'
+                                                                    },
+                                                                    templateShareable: false}">
+                                                <upload:toolbar>
+                                                </upload:toolbar>
+                                                <upload:items>
+                                                    <upload:UploadSetItem id="d2dd" fileName="{fileName}" mediaType="{mediaType}" url="{url}" thumbnailUrl="{
+                                                                    path: '/mediaType',
+                                                                    formatter: 'formatThumbnailUrl'
+                                                                }" enabledEdit="true" visibleEdit="true" visibleRemove="true" openPressed="onOpenPressedDoc" removePressed="onRemovePressed">
+                                                        <upload:attributes>
+                                                            <ObjectAttribute id="edd" title="Uploaded By" text="{createdBy}" active="false" />
+                                                            <ObjectAttribute id="ded22" title="Uploaded on" text="{createdAt}" active="false" />
+                                                            <ObjectAttribute id="ddedw2" title="File Type" text="{mediaType}" active="false" />
+                                                            <ObjectAttribute id="dd2e2a" title="File Size" text="{size}" active="false" />
+                                                        </upload:attributes>
+                                                    </upload:UploadSetItem>
+                                                </upload:items>
+                                            </upload:UploadSet>
+                                        </VBox>
+                                    </uxap:blocks>
+                                </uxap:ObjectPageSubSection>
+                            </uxap:subSections>
+                        </uxap:ObjectPageSection>
+
+
+                          <uxap:ObjectPageSection title="Details" titleUppercase="false">
+                            <uxap:subSections>
+                                <uxap:ObjectPageSubSection title="Attachments" mode="Collapsed" titleUppercase="false">
+                                    <uxap:blocks> 
+                                        <VBox>
+                                            <upload:UploadSet id="uploa2dSet" instantUpload="false" uploadEnabled="true" showIcons="true" mode="None" uploadButtonInvisible="false" afterItemAdded="onAfterItemAddedAttach" uploadCompleted="onUploadCompletedAttach" items="{
+                                                                    path: '/Files3',
+                                                                    parameters: {
+                                                                        $orderby: 'createdAt desc'
+                                                                    },
+                                                                    templateShareable: false}">
+                                                <upload:toolbar>
+                                                </upload:toolbar>
+                                                <upload:items>
+                                                    <upload:UploadSetItem id="dd2d" fileName="{fileName}" mediaType="{mediaType}" url="{url}" thumbnailUrl="{
+                                                                    path: '/mediaType',
+                                                                    formatter: 'formatThumbnailUrl'
+                                                                }" enabledEdit="true" visibleEdit="true" visibleRemove="true" openPressed="onOpenPressedAttach" removePressed="onRemovePressed">
+                                                        <upload:attributes>
+                                                            <ObjectAttribute id="dd2" title="Uploaded By" text="{createdBy}" active="false" />
+                                                            <ObjectAttribute id="dd222" title="Uploaded on" text="{createdAt}" active="false" />
+                                                            <ObjectAttribute id="dddw22" title="File Type" text="{mediaType}" active="false" />
+                                                            <ObjectAttribute id="dd22a2" title="File Size" text="{size}" active="false" />
+                                                        </upload:attributes>
+                                                    </upload:UploadSetItem>
+                                                </upload:items>
+                                            </upload:UploadSet>
+                                        </VBox>
+                                    </uxap:blocks>
+                                </uxap:ObjectPageSubSection>
+                            </uxap:subSections>
+                        </uxap:ObjectPageSection>
+
 
 
 
@@ -384,7 +443,7 @@
                     <Bar>
                         <contentRight>
                             <Button id="bckbtn" class = "backbttn" text="Clear Screen" press="clear" />
-                            <Button id="submit" class = "backbttn" text="Submit" press="Submit" visible="false"/>
+                            <Button id="submit" class = "backbttn" text="Submit" press="Submit" visible="true"/>
                             <!-- <Button text="Cancel" press="handleWizardCancel"/> -->
                         </contentRight>
                     </Bar>

@@ -101,39 +101,46 @@ annotate service.PODetails with @(
     UI.LineItem : [
         {
             $Type : 'UI.DataField',
-            Label : 'orderNumber',
+            Label : 'Order Number',
             Value : orderNumber,
         },
         {
             $Type : 'UI.DataField',
-            Label : 'vendorNo',
-            Value : vendorNo,
-        },
-        {
-            $Type : 'UI.DataField',
-            Label : 'vendorName',
+            Label : 'Vendor Name',
             Value : vendorName,
         },
         {
             $Type : 'UI.DataField',
-            Label : 'vendorGstin',
-            Value : vendorGstin,
-        },
-        {
-            $Type : 'UI.DataField',
-            Label : 'CompanyCode',
+            Label : 'Company Code',
             Value : CompanyCode,
         },
         {
             $Type : 'UI.DataField',
+            Label : 'Vendor No',
+            Value : vendorNo,
+        },
+        {
+            $Type : 'UI.DataField',
+            Label : 'Vendor Gstin',
+            Value : vendorGstin,
+        },
+        {
+            $Type : 'UI.DataField',
             Value : copySupplier,
-            Label : 'copySupplier',
+            Label : 'Copy Supplier',
         },
         {
             $Type : 'UI.DataFieldForIntentBasedNavigation',
             SemanticObject : 'semadv',
             Action : 'display',
             Label : 'Create Invoice',
+            Mapping : [
+                {
+                    $Type : 'Common.SemanticObjectMappingType',
+                    SemanticObjectProperty : 'semadv',
+                    LocalProperty : orderNumber,
+                },
+            ],
         },
     ],
 );
@@ -145,14 +152,16 @@ annotate service.PODetails with @(
         PlantCode,
     ]
 );
+
+
 annotate service.PODetails with {
-    orderNumber @Common.Label : 'orderNumber'
+    orderNumber @Common.Label : 'Order Number'
 };
 annotate service.PODetails with {
-    vendorName @Common.Label : 'vendorName'
+    vendorName @Common.Label : 'Vendor Name'
 };
 annotate service.PODetails with {
-    PlantCode @Common.Label : 'PlantCode'
+    PlantCode @Common.Label : 'Plant Code'
 };
 annotate service.PODetails with @(
     UI.HeaderFacets : [
@@ -172,18 +181,18 @@ annotate service.PODetails with @(
             },{
                 $Type : 'UI.DataField',
                 Value : contractNo,
-                Label : 'contractNo',
+                Label : 'Contract No',
             },{
                 $Type : 'UI.DataField',
                 Value : vendorName,
             },{
                 $Type : 'UI.DataField',
                 Value : vendorGstin,
-                Label : 'vendorGstin',
+                Label : 'Vendor Gstin',
             },{
                 $Type : 'UI.DataField',
                 Value : CompanyCode,
-                Label : 'CompanyCode',
+                Label : 'Company Code',
             },],
     }
 );
@@ -195,20 +204,21 @@ annotate service.POVendors with @(
         {
             $Type : 'UI.DataField',
             Value : email,
-            Label : 'email',
+            Label : 'Email',
         },{
             $Type : 'UI.DataField',
             Value : firstname,
-            Label : 'firstname',
+            Label : 'First Name',
         },{
             $Type : 'UI.DataField',
             Value : lastname,
-            Label : 'lastname',
+            Label : 'Last Name',
         },{
             $Type : 'UI.DataField',
             Value : vendorNo,
-            Label : 'vendorNo',
+            Label : 'Vendor No',
         },]
+
 );
  @Capabilities.SearchRestrictions: {
                 Searchable: false
@@ -218,44 +228,44 @@ annotate service.POLineItems with @(
         {
             $Type : 'UI.DataField',
             Value : itemNo,
-            Label : 'itemNo',
+            Label : 'Item No',
         },{
             $Type : 'UI.DataField',
             Value : itemDesc,
-            Label : 'itemDesc',
+            Label : 'Item Description',
         },{
             $Type : 'UI.DataField',
             Value : itemCondDesc,
-            Label : 'itemCondDesc',
+            Label : 'Item Description Condition',
         },{
             $Type : 'UI.DataField',
             Value : plant,
-            Label : 'plant',
+            Label : 'Plant',
         },{
             $Type : 'UI.DataField',
             Value : unitPrice,
-            Label : 'unitPrice',
+            Label : 'Unit Price',
         },
         {
             $Type : 'UI.DataField',
             Value : lineItemQuant,
-            Label : 'lineItemQuant',
+            Label : 'Quantity',
         },{
             $Type : 'UI.DataField',
             Value : CgstPercent,
-            Label : 'CgstPercent',
+            Label : 'Cgst%',
         },{
             $Type : 'UI.DataField',
             Value : sgstPercent,
-            Label : 'sgstPercent',
+            Label : 'Sgst%',
         },{
             $Type : 'UI.DataField',
             Value : cgstValue,
-            Label : 'cgstValue',
+            Label : 'Cgst Value',
         },{
             $Type : 'UI.DataField',
             Value : sgstValue,
-            Label : 'sgstValue',
+            Label : 'Sgst Value',
         },]
 );
 annotate service.PODetails with @(

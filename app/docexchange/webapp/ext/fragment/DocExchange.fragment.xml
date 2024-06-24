@@ -34,7 +34,7 @@ xmlns:mvc="sap.ui.core.mvc" xmlns:upload="sap.m.upload" xmlns:Button="sap.m.Butt
 							mediaType="{mediaType}"
 							url="{url}"
 							thumbnailUrl="{
-								path: 'mediaType',
+								path: '/mediaType',
 								formatter: 'handler.formatThumbnailUrl'
 							}"
 							enabledEdit="true"

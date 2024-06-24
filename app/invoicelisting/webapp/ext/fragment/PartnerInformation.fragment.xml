@@ -1,0 +1,31 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:macros="sap.fe.macros">
+	 <Table id= "table_partner"  items="{
+                                                path: '/POVendors'}">
+                                            <columns>
+                                                <Column>
+                                                    <Text id="email" text="Email" />
+                                                </Column>
+                                                <Column>
+                                                    <Text text="First Name" />
+                                                </Column>
+                                                <Column>
+                                                    <Text text="Last Name" />
+                                                </Column>
+                                                <Column>
+                                                    <Text text="Vendor Code" />
+                                                </Column>
+
+                                            </columns>
+                                            <items>
+                                                <ColumnListItem >
+                                                    <cells>
+                                                        <Text text="{email}" />
+                                                        <Text text="{firstname}" />
+                                                        <Text text="{lastname}" />
+                                                        <Text text="{vendorNo}" />
+                                                    </cells>
+                                                </ColumnListItem>
+                                            </items>
+                                        </Table>
+
+</core:FragmentDefinition>

@@ -25,7 +25,7 @@ xmlns:mvc="sap.ui.core.mvc" xmlns:upload="sap.m.upload">
 							mediaType="{mediaType}"
 							url="{url}"
 							thumbnailUrl="{
-								path: 'mediaType',
+								path: '/mediaType',
 								formatter: 'handler.formatThumbnailUrl'
 							}"
 							enabledEdit="true"
@@ -48,17 +48,11 @@ xmlns:mvc="sap.ui.core.mvc" xmlns:upload="sap.m.upload">
 								/>
 								<ObjectAttribute
 								id="dddw2"
+									title="Status"
+									text="{status}"
+									active="false"
+								/>
 
-									title="File Type"
-									text="{mediaType}"
-									active="false"
-								/>
-								<ObjectAttribute
-								id="dd22a"
-									title="File Size"
-									text="{size}"
-									active="false"
-								/>
 							</upload:attributes>
 						</upload:UploadSetItem>
 					</upload:items>

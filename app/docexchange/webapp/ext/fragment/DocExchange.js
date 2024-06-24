@@ -16,11 +16,15 @@ sap.ui.define([
     "sap/m/Select",
     "sap/m/Image",
     "sap/m/CheckBox"
+
 ], function (MessageToast, JSONModel, Item, Dialog, Button, BaseObject, Text, Title, ObjectPageLayout, ObjectPageSection, ObjectPageSubSection, VBox, TextArea, Input, Select, Image, CheckBox) {
     'use strict';
     var that = this;
     var commentFromSupplier;
     var fname;
+    let itemselText;
+    let selItems;
+
 
     return {
         onPress: function (oEvent) {
@@ -28,19 +32,20 @@ sap.ui.define([
             MessageToast.show("Custom handler invoked.");
         },
         onAfterItemAdded: function (oEvent) {
-            debugger;
+            debugger
             var item = oEvent.getParameter("item");
             var url1 = this._view.getModel().sServiceUrl;
             var _createEntity = function (item) {
                 var path1 = window.location.href;
-                var regex = /vendorNo='(\d+)'/;
+                // var regex = /vendorNo='(\d+)'/;
+                var regex = /orderNumber='([^']+)'/;
                 var match = path1.match(regex);
                 var key = match[1];
                 var data = {
                     mediaType: item.getMediaType(),
                     fileName: item.getFileName(),
                     size: item.getFileObject().size,
-                    vendorNo: key
+                    orderNumber: key
 
                 };
 
@@ -89,43 +94,73 @@ sap.ui.define([
 
 
 
-        onUploadCompleted: function (oEvent) {
+        onUploadCompleted: async function (oEvent) {
             debugger
             var oUploadSet = this.byId("uploadSet");
             oUploadSet.removeAllIncompleteItems();
             oUploadSet.getBinding("items").refresh();
 
             fname = oEvent.mParameters.item.mProperties.fileName;
-           
-            var path1 = window.location.href;
-            var regex = /vendorNo='(\d+)'/;
-            var match = path1.match(regex);
-            var key = match[1];
 
+            var path1 = window.location.href;
+            var vendorNoRegex = /vendorNo='([^']+)'/;
+            var orderNumberRegex = /orderNumber='([^']+)'/;
+            var vendorNoMatch = path1.match(vendorNoRegex);
+            var orderNumberMatch = path1.match(orderNumberRegex);
+            var vendorNum = vendorNoMatch ? vendorNoMatch[1] : null;
+            var orderNum = orderNumberMatch ? orderNumberMatch[1] : null;
+
+
+            // var regex = /orderNumber='([^']+)'/;
+            // var match = path1.match(regex);
+            // var key = match[1];
 
             var item = oEvent.getParameter("item");
             var data = {
                 mediaType: item.getMediaType(),
                 fileName: item.getFileName(),
                 size: item.getFileObject().size,
-                vendorNo: key
+                orderNumber: orderNum
 
             };
 
+            //function import to get supplier mail 
+            let funcname = 'checkboxSuppplerEmail';
+            var oFunc = sap.ui.getCore().byId("docexchange::PODetailsObjectPage--fe::FacetSection::PartnerInformation-innerGrid").getModel().bindContext(`/${funcname}(...)`);
+            oFunc.setParameter('vendorNo', vendorNum);
+            await oFunc.execute();
+
+            var table = oFunc.getBoundContext().getValue().value;   //to get the data from service.js
+
+            var oMultiComboBox = new sap.m.MultiComboBox("checkboxSelected", {
+                width: "300px"
+            });
+
+            selItems = sap.ui.getCore().byId("checkboxSelected").getSelectedItems();
+
+
+            for (let i = 0; i < table.length; i++) {
+                var oItem = new sap.ui.core.ListItem({
+                    key: `key${i}`,
+                    text: table[i].email
+                });
+                oMultiComboBox.addItem(oItem);
+            }
 
             var oDialog = new Dialog({
+                id: 'exchangeDocumentDialog',
                 title: 'Exchange Document with Supplier',
                 type: 'Message',
                 contentWidth: "700px",
                 contentHeight: "600px",
-                scroll: false,
+
                 content: [
                     new VBox({
                         items: [
                             new Title({ text: fname }),
-                            new Text({ text: key }),
+                            new Text({ text: orderNum }),
                             new sap.ui.core.Icon({
-                                src: "sap-icon://card",
+                                src: "sap-icon://attachment",
                                 contentWidth: "1000px",
                                 contentHeight: "1000px",
                                 size: "40px"
@@ -157,14 +192,7 @@ sap.ui.define([
                                             new sap.m.VBox({
                                                 items: [
                                                     new sap.m.Title({ text: "Suppliers" }),
-                                                    new sap.m.MultiComboBox({
-                                                        width: "300px",
-                                                        items: [
-                                                            new sap.ui.core.ListItem({ key: "1", text: "poornima.am@peolsolutions.com" }),
-                                                            new sap.ui.core.ListItem({ key: "2", text: "sai.kumar@peolsolutions.com" }),
-                                                            new sap.ui.core.ListItem({ key: "3", text: "prem.k@peolsolutions.com" })
-                                                        ]
-                                                    })
+                                                    oMultiComboBox // Add the dynamically created MultiComboBox
                                                 ]
                                             })
                                         ]
@@ -197,10 +225,47 @@ sap.ui.define([
 
                 beginButton: new sap.m.Button({
                     text: 'Submit',
-                    press: function (oModel) {
+                    press: async function (oEvent, oModel) {
                         debugger
-                        // commentFromSupplier = sap.ui.getCore().byId("__data449").getParent().mProperties.value;
                         commentFromSupplier = sap.ui.getCore().byId("myTextArea").mProperties.value;
+                        //function import to insert comments
+                        var funcname = 'storingComments';
+                        let oFunc = sap.ui.getCore().byId("docexchange::PODetailsObjectPage--fe::FacetSection::PartnerInformation-innerGrid").getModel().bindContext(`/${funcname}(...)`);
+                        oFunc.setParameter('vendorNo', vendorNum);
+                        oFunc.setParameter('textArea', commentFromSupplier);
+                        await oFunc.execute();
+
+                        selItems = sap.ui.getCore().byId("checkboxSelected").getSelectedItems();
+                        let selectedSuppliers = "";
+
+                        for (let j = 0; j < selItems.length; j++) {
+                            if (j > 0) {
+                                selectedSuppliers += ", ";
+                            }
+                            selectedSuppliers += selItems[j].mProperties.text;
+                        }
+
+                        let Separate = [];
+
+                        for (let j = 0; j < selItems.length; j++) {
+                            Separate.push(selItems[j].mProperties.text);
+                        }
+
+                        let jsonString = JSON.stringify(Separate);
+                        
+                        // var testdata = JSON.stringify({
+                        //     Separate: Separate
+                        // });
+
+                        funcname = 'UpdateSupplierEmail';
+                        oFunc = sap.ui.getCore().byId("docexchange::PODetailsObjectPage--fe::FacetSection::PartnerInformation-innerGrid").getModel().bindContext(`/${funcname}(...)`);
+                        oFunc.setParameter('vendorNo', vendorNum);
+                        oFunc.setParameter('orderNumber', orderNum);
+                        oFunc.setParameter('email', selectedSuppliers);
+                        oFunc.setParameter('Separate_email', jsonString);
+                        await oFunc.execute();
+
+
                         sap.m.MessageToast.show("Document submitted successfully.");
                         oDialog.close();
                     }
@@ -216,7 +281,11 @@ sap.ui.define([
                 }
 
             });
+
             oDialog.open();
+
+
+
 
 
 
@@ -359,7 +428,7 @@ sap.ui.define([
 
         onManageDocumentPress: function (oEvent) {
             debugger
-           
+
             function generateUniqueId() {
                 // Generate a random number
                 var randomNumber = Math.floor(Math.random() * 1000000);
@@ -374,14 +443,25 @@ sap.ui.define([
             }
 
 
+
+            var oVBox = new sap.m.VBox();
+            for (let i = 0; i < selItems.length; i++) {
+                var oText = new sap.m.Text({
+                    text: selItems[i].mProperties.text
+                });
+                oVBox.addItem(oText);
+            }
+
+
             var oDialog = new Dialog({
                 title: 'Exchange Document with Supplier',
                 type: 'Message',
                 contentWidth: "900px",
                 contentHeight: "500px",
-              
+
                 content: [
-                    new Title({ text: fname,
+                    new Title({
+                        text: fname,
                         design: "Bold",
                     }),
                     new ObjectPageLayout({
@@ -395,14 +475,16 @@ sap.ui.define([
 
                                                 items: [
                                                     new sap.suite.ui.commons.Timeline({
-                                                        axisOrientation: "Horizontal", 
-                                                        enableScroll: false, 
+                                                        // axisOrientation: "Horizontal",
+                                                        enableScroll: false,
+                                                        alignment: sap.suite.ui.commons.TimelineAlignment.Right,
+                                                        axisOrientation: sap.suite.ui.commons.TimelineAxisOrientation.Vertical,
                                                         showSearch: false,
-                                                        showSort: false, 
+                                                        showSort: false,
                                                         showFilter: false,
                                                         showHeaderBar: false,
                                                         showItemFilter: false,
-                                                        showIcons: false,
+                                                        // showIcons: false,
                                                         content: [
                                                             new sap.suite.ui.commons.TimelineItem({
                                                                 id: "thisuniqid1" + generateUniqueId(),
@@ -427,13 +509,7 @@ sap.ui.define([
                                             new VBox({
                                                 items: [
                                                     new Title({ text: "Suppliers" }),
-                                                    new Select({
-                                                        items: [
-                                                            new Item({ key: "1", text: "poornima.am@peolsolutions.com" }),
-                                                            new Item({ key: "2", text: "sai.k@peolsolutions.com" }),
-                                                            new Item({ key: "3", text: "prem.k@peolsolutions.com" })
-                                                        ]
-                                                    })
+                                                    oVBox
                                                 ]
                                             })
                                         ]
