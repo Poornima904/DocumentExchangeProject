@@ -5,28 +5,23 @@ annotate service.PODetails1 with @(
         Data : [
             {
                 $Type : 'UI.DataField',
-                Label : 'vendorNo',
+                Label : 'Vendor Number',
                 Value : vendorNo,
             },
             {
                 $Type : 'UI.DataField',
-                Label : 'orderNumber',
+                Label : 'Order Number',
                 Value : orderNumber,
             },
             {
                 $Type : 'UI.DataField',
-                Label : 'vendorName',
+                Label : 'Vendor Name',
                 Value : vendorName,
             },
             {
                 $Type : 'UI.DataField',
-                Label : 'vendorGstin',
+                Label : 'Vendor Gstin',
                 Value : vendorGstin,
-            },
-            {
-                $Type : 'UI.DataField',
-                Label : 'CompanyCode',
-                Value : CompanyCode,
             },
             {
                 $Type : 'UI.DataField',
@@ -35,52 +30,57 @@ annotate service.PODetails1 with @(
             },
             {
                 $Type : 'UI.DataField',
-                Label : 'TotalValue',
+                Label : 'Company Code',
+                Value : CompanyCode,
+            },
+            {
+                $Type : 'UI.DataField',
+                Label : 'Total Value',
                 Value : TotalValue,
             },
             {
                 $Type : 'UI.DataField',
-                Label : 'poDate',
+                Label : 'PO Date',
                 Value : poDate,
             },
             {
                 $Type : 'UI.DataField',
-                Label : 'poChangedate',
+                Label : 'PO Change Date',
                 Value : poChangedate,
             },
             {
                 $Type : 'UI.DataField',
-                Label : 'purchOrgName',
+                Label : 'Purchase Organization  Name',
                 Value : purchOrgName,
             },
             {
                 $Type : 'UI.DataField',
-                Label : 'poVersion',
+                Label : 'PO Version',
                 Value : poVersion,
             },
             {
                 $Type : 'UI.DataField',
-                Label : 'copySupplier',
+                Label : 'Copy Supplier',
                 Value : copySupplier,
             },
             {
                 $Type : 'UI.DataField',
-                Label : 'PlantCode',
+                Label : 'Plant Code',
                 Value : PlantCode,
             },
             {
                 $Type : 'UI.DataField',
-                Label : 'contractNo',
+                Label : 'Contract Number',
                 Value : contractNo,
             },
             {
                 $Type : 'UI.DataField',
-                Label : 'curr',
+                Label : 'Currency',
                 Value : curr,
             },
             {
                 $Type : 'UI.DataField',
-                Label : 'email',
+                Label : 'Email',
                 Value : email,
             },
         ],
@@ -96,27 +96,27 @@ annotate service.PODetails1 with @(
     UI.LineItem : [
         {
             $Type : 'UI.DataField',
-            Label : 'orderNumber',
+            Label : 'Order Number',
             Value : orderNumber,
         },
         {
             $Type : 'UI.DataField',
-            Label : 'vendorNo',
+            Label : 'Vendor No',
             Value : vendorNo,
         },
         {
             $Type : 'UI.DataField',
-            Label : 'vendorName',
+            Label : 'Vendor Name',
             Value : vendorName,
         },
         {
             $Type : 'UI.DataField',
-            Label : 'vendorGstin',
+            Label : 'Vendor Gstin',
             Value : vendorGstin,
         },
         {
             $Type : 'UI.DataField',
-            Label : 'CompanyCode',
+            Label : 'Company Code',
             Value : CompanyCode,
         },
     ],
